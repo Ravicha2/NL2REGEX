@@ -86,9 +86,9 @@ Modify `backend/pyproject.toml`:
 
 ```toml
 [project]
-name = "rhombus-backend"
+name = "nl2regex-backend"
 version = "0.1.0"
-description = "Rhombus AI – Take-Home Exercise Backend"
+description = "NL2REGEX AI – Take-Home Exercise Backend"
 requires-python = ">=3.10"
 dependencies = [
     "django==4.2.11",
@@ -116,7 +116,7 @@ Modify `docker-compose.yml` environment blocks for `web` and `celery`:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/1
       - CACHE_URL=redis://redis:6379/2
-      - DB_NAME=rhombus
+      - DB_NAME=nl2regex
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_HOST=db
@@ -624,7 +624,7 @@ def run_pyspark_job(self, job_id: int, regex_pattern: str, target_column: str, r
         master = os.environ.get('SPARK_MASTER', 'local[*]')
         spark = SparkSession.builder \
             .master(master) \
-            .appName(f"RhombusWorker_Job_{job_id}") \
+            .appName(f"NL2REGEXWorker_Job_{job_id}") \
             .getOrCreate()
 
         job.progress = 25.0

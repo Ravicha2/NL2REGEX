@@ -33,9 +33,9 @@
 
 ```toml
 [project]
-name = "rhombus-backend"
+name = "nl2regex-backend"
 version = "0.1.0"
-description = "Rhombus AI – Take-Home Exercise Backend"
+description = "NL2REGEX AI – Take-Home Exercise Backend"
 requires-python = ">=3.10"
 dependencies = [
     "django==4.2.11",
@@ -61,7 +61,7 @@ build-backend = "hatchling.build"
 services:
   redis:
     image: redis:7.2-alpine
-    container_name: rhombus_redis
+    container_name: nl2regex_redis
     ports:
       - "6379:6379"
     volumes:
@@ -75,17 +75,17 @@ services:
 
   db:
     image: postgres:15-alpine
-    container_name: rhombus_db
+    container_name: nl2regex_db
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=rhombus
+      - POSTGRES_DB=nl2regex
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d rhombus"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d nl2regex"]
       interval: 5s
       timeout: 3s
       retries: 5
@@ -95,8 +95,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.web   # slim image, no Spark
-    image: rhombus_web
-    container_name: rhombus_web
+    image: nl2regex_web
+    container_name: nl2regex_web
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./backend:/app
@@ -106,7 +106,7 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/1
       - CACHE_URL=redis://redis:6379/2
-      - DB_NAME=rhombus
+      - DB_NAME=nl2regex
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_HOST=db
@@ -123,8 +123,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: rhombus_celery
-    container_name: rhombus_celery
+    image: nl2regex_celery
+    container_name: nl2regex_celery
     command: celery -A core worker --loglevel=info
     volumes:
       - ./backend:/app
@@ -132,7 +132,7 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/1
       - CACHE_URL=redis://redis:6379/2
-      - DB_NAME=rhombus
+      - DB_NAME=nl2regex
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_HOST=db
@@ -196,7 +196,7 @@ if os.environ.get('DB_HOST'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('DB_NAME', 'rhombus'),
+            'NAME': os.environ.get('DB_NAME', 'nl2regex'),
             'USER': os.environ.get('DB_USER', 'postgres'),
             'PASSWORD': os.environ.get('DB_PASSWORD', 'postgres'),
             'HOST': os.environ.get('DB_HOST', 'db'),

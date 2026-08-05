@@ -1,7 +1,7 @@
 [project]
-name = "rhombus-backend"
+name = "nl2regex-backend"
 version = "0.1.0"
-description = "Rhombus AI – Take-Home Exercise Backend"
+description = "NL2REGEX AI – Take-Home Exercise Backend"
 requires-python = ">=3.10"
 dependencies = [
     "django==4.2.11",

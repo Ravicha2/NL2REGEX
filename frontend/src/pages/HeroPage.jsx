@@ -94,7 +94,7 @@ export default function HeroPage() {
 
       {/* Sidebar */}
       <aside className="w-full md:w-64 border-r border-surface bg-canvas p-4 shrink-0">
-        <h1 className="font-semibold text-ink text-[30px] mb-3 border-b">Rhombus AI</h1>
+        <h1 className="font-semibold text-ink text-[30px] mb-3 border-b">NL2REGEX AI</h1>
         <h2 className="font-semibold text-ink mb-3">Uploaded Files</h2>
         <ul className="space-y-2">
           {uploads.map((u) => (

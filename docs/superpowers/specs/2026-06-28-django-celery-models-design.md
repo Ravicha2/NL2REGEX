@@ -6,7 +6,7 @@ This specification details the architecture and data models for Subtask 2 of the
 ## 2. Architecture & Infrastructure
 - **Database Service**: A PostgreSQL 15 service (`db`) using `postgres:15-alpine` will be added to `docker-compose.yml`, persisting data via a Docker volume named `postgres_data`.
 - **Driver**: `psycopg2-binary` will be added to `pyproject.toml` to serve as the DB-API driver for Django's ORM.
-- **Environment Variables**: The `web` and `celery` containers will be configured with environment variables for database connectivity (`DB_NAME=rhombus`, `DB_USER=postgres`, `DB_PASSWORD=postgres`, `DB_HOST=db`, `DB_PORT=5432`) and will include `db` in their `depends_on` configurations.
+- **Environment Variables**: The `web` and `celery` containers will be configured with environment variables for database connectivity (`DB_NAME=nl2regex`, `DB_USER=postgres`, `DB_PASSWORD=postgres`, `DB_HOST=db`, `DB_PORT=5432`) and will include `db` in their `depends_on` configurations.
 
 ## 3. Django Application Structure & Models
 To maintain clean separation of concerns and support future distributed scalability, two separate Django applications will be created.

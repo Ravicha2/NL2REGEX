@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "=== Rhombus Production Deploy ==="
+echo "=== NL2REGEX Production Deploy ==="
 
 # Build frontend
 echo "[1/4] Building frontend..."

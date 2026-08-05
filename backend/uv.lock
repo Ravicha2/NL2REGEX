@@ -1289,7 +1289,7 @@ wheels = [
 ]
 
 [[package]]
-name = "rhombus-backend"
+name = "nl2regex-backend"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

@@ -44,7 +44,7 @@ Responsible for asynchronous task tracking, LLM regex generation, polling, and r
 ## 4. Distributed PySpark Engine (`jobs.tasks`)
 - **Task `run_pyspark_job(job_id, regex_pattern, target_column, replacement_value)`**:
   - Runs in the `celery` container. Updates `ProcessingJob.status = 'RUNNING'`.
-  - Initializes PySpark: `SparkSession.builder.master("local[*]").appName("RhombusWorker").getOrCreate()`.
+  - Initializes PySpark: `SparkSession.builder.master("local[*]").appName("NL2REGEXWorker").getOrCreate()`.
   - Reads the raw dataset from `DatasetUpload.file_path`. For CSV: `spark.read.csv(file_path, header=True, inferSchema=True)`. For Excel: uses `pandas` to read and converts to Spark DataFrame via `spark.createDataFrame()`.
   - Updates `ProcessingJob.progress = 25.0`.
   - Applies transformation: `df.withColumn(target_column, pyspark.sql.functions.regexp_replace(pyspark.sql.functions.col(target_column), regex_pattern, replacement_value))`.

@@ -1,7 +1,7 @@
 services:
   redis:
     image: redis:7.2-alpine
-    container_name: rhombus_redis
+    container_name: nl2regex_redis
     ports:
       - "6379:6379"
     volumes:
@@ -15,17 +15,17 @@ services:
 
   db:
     image: postgres:15-alpine
-    container_name: rhombus_db
+    container_name: nl2regex_db
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=rhombus
+      - POSTGRES_DB=nl2regex
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d rhombus"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d nl2regex"]
       interval: 5s
       timeout: 3s
       retries: 5
@@ -35,8 +35,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.web   # slim image, no Spark
-    image: rhombus_web
-    container_name: rhombus_web
+    image: nl2regex_web
+    container_name: nl2regex_web
     command: sh -c "uv sync --no-dev --no-install-project && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./backend:/app
@@ -46,7 +46,7 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/1
       - CACHE_URL=redis://redis:6379/2
-      - DB_NAME=rhombus
+      - DB_NAME=nl2regex
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_HOST=db
@@ -64,8 +64,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: rhombus_celery
-    container_name: rhombus_celery
+    image: nl2regex_celery
+    container_name: nl2regex_celery
     command: sh -c "uv sync --no-dev --no-install-project && celery -A core worker --loglevel=info"
     volumes:
       - ./backend:/app
@@ -73,7 +73,7 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/1
       - CACHE_URL=redis://redis:6379/2
-      - DB_NAME=rhombus
+      - DB_NAME=nl2regex
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_HOST=db
